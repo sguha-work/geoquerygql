@@ -1,5 +1,5 @@
 import { buildSchema } from 'graphql';
-const schema = buildSchema(`
+const GeoLocationSchema = buildSchema(`
         type GeoLocation {
             _id: ID!
             name: String!
@@ -13,7 +13,8 @@ const schema = buildSchema(`
             longitude: Float!
         }
         type RootQuery {
-            geolocations: [GeoLocation!]!
+            geolocations: [GeoLocation!]!,
+            geolocationsbyname(name: String):[GeoLocation!]!
         }
         type RootMutation {
             insertGeoLocationDetail(geolocationinput: GeoLocationInput): GeoLocation
@@ -23,4 +24,4 @@ const schema = buildSchema(`
             mutation: RootMutation
         }
     `);
-export default schema;
+export default GeoLocationSchema;

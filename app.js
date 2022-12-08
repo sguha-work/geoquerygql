@@ -5,8 +5,8 @@ import dotenv from 'dotenv';
 import https from 'https';
 import fs from 'fs';
 import cors from "cors";
-import schema from './graphql/schema.js';
-import resolvers from './graphql/resolvers.js';
+import GeoLocationSchema from './graphql/geolocation/geolocation.schema.js';
+import GeoLocationResolvers from './graphql/geolocation/geolocation.resolvers.js';
 
 dotenv.config();
 const app = express();
@@ -17,8 +17,8 @@ app.use(
     })
 );
 app.use('/gql', graphqlHTTP({
-    schema: schema,
-    rootValue: resolvers,
+    schema: GeoLocationSchema,
+    rootValue: GeoLocationResolvers,
     graphiql: true
 }));
 (async () => {
@@ -48,9 +48,19 @@ app.use('/gql', graphqlHTTP({
     createdAt
   }
 }
-
+// fetching all
 query {
   geolocations {
+    _id
+    name
+    latitude
+    longitude
+    createdAt
+  }
+}
+// fetch by name
+query {
+  geolocationsbyname(name:"Angshu") {
     _id
     name
     latitude

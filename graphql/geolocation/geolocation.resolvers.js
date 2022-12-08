@@ -1,10 +1,21 @@
-import * as GeoLocation from '../models/geolocation.model.js';
-import DBService from '../services/db.service.js';
+import * as GeoLocation from '../../models/geolocation.model.js';
+import DBService from '../../services/db.service.js';
 const dbService = DBService.getInstance();
 await dbService.connect();
-const resolvers = {
+const GeoLocationResolvers = {
     geolocations: async (args) => {
         const result = await GeoLocation.default.find();
+        return result.map((dataChunk) => {
+            return { ...dataChunk._doc };
+        });
+    },
+    geolocationsbyname: async (args) => {
+        let result;
+        if (typeof args.name !== 'undefined') {
+            result = await GeoLocation.default.find({ "name": args.name });
+        } else {
+            result = await GeoLocation.default.find();
+        }
         return result.map((dataChunk) => {
             return { ...dataChunk._doc };
         });
@@ -24,4 +35,4 @@ const resolvers = {
         return { ...result._doc };
     }
 }
-export default resolvers;
+export default GeoLocationResolvers;
