@@ -1,5 +1,5 @@
-import * as GeoLocation from '../../models/geolocation.model.js';
-import DBService from '../../services/db.service.js';
+import * as GeoLocation from './models/geolocation.model.js';
+import DBService from './services/db.service.js';
 const dbService = DBService.getInstance();
 await dbService.connect();
 const GeoLocationResolvers = {

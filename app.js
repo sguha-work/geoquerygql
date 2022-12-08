@@ -5,8 +5,8 @@ import dotenv from 'dotenv';
 import https from 'https';
 import fs from 'fs';
 import cors from "cors";
-import GeoLocationSchema from './graphql/geolocation/geolocation.schema.js';
-import GeoLocationResolvers from './graphql/geolocation/geolocation.resolvers.js';
+import GeoLocationSchema from './modules/geolocation/geolocation.schema.js';
+import GeoLocationResolvers from './modules/geolocation/geolocation.resolvers.js';
 
 dotenv.config();
 const app = express();
@@ -16,11 +16,14 @@ app.use(
         origin: "*"
     })
 );
-app.use('/gql', graphqlHTTP({
+
+// setting up geoloc endpoint for module geolocation
+app.use('/geoloc', graphqlHTTP({
     schema: GeoLocationSchema,
     rootValue: GeoLocationResolvers,
     graphiql: true
 }));
+
 (async () => {
     https.createServer({
         key: fs.readFileSync("./key.pem"),
@@ -28,7 +31,7 @@ app.use('/gql', graphqlHTTP({
         requestCert: false,
         rejectUnauthorized: false,
     }, app).listen(3005, function () {
-        console.log("Successfully started server on port 3005");
+        console.log(`Successfully started server: https://localhost:3005`);
     });
 })();
 
