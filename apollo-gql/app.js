@@ -6,16 +6,13 @@ import dotenv from 'dotenv';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { execute, subscribe } from 'graphql';
 import { makeExecutableSchema } from '@graphql-tools/schema';
+import schema from './schema.js';
+import resolvers from './resolvers.js';
+
 dotenv.config();
-
-
-
-import GeoLocationSchema from './modules/geolocation/geolocation.schema.js';
-import GeoLocationResolvers from './modules/geolocation/geolocation.resolvers.js';
-
-const schema = makeExecutableSchema({
-  typeDefs: GeoLocationSchema,
-  resolvers: GeoLocationResolvers
+const executableSchema = makeExecutableSchema({
+  typeDefs: schema,
+  resolvers: resolvers
 });
 const port = process.env.PORT || 3005;
 const startServer = async () => {
@@ -27,7 +24,7 @@ const startServer = async () => {
     console.log(`Server listning to port ${port}`);
   });
   const subscriptionServer = SubscriptionServer.create({
-    schema,
+    executableSchema,
     execute,
     subscribe
   }, {
@@ -36,8 +33,8 @@ const startServer = async () => {
   });
 
   const apolloServer = new ApolloServer({
-    typeDefs: GeoLocationSchema,
-    resolvers: GeoLocationResolvers,
+    typeDefs: schema,
+    resolvers: resolvers,
     plugins: [{
       async serverWillStart() {
         return {

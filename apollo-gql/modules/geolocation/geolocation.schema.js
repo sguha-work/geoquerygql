@@ -1,6 +1,6 @@
 
-import { gql } from 'apollo-server-express';
-const GeoLocationSchema = gql`
+
+const GeoLocationSchema = `
     type GeoLocation {
         _id: ID!
         name: String!
