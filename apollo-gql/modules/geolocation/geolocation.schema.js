@@ -1,6 +1,6 @@
 
 import {gql} from 'apollo-server-express';
-const typeDefs = gql`
+const GeoLocationSchema = gql`
     type GeoLocation {
         _id: ID!
         name: String!
@@ -15,7 +15,7 @@ const typeDefs = gql`
     }
     type Query {
         geolocations: [GeoLocation!]!,
-            geolocationsbyname(name: String):[GeoLocation!]!
+        geolocationsbyname(name: String):[GeoLocation!]!
     }
     type Mutation {
         insertGeoLocationDetail(geolocationinput: GeoLocationInput): GeoLocation
@@ -24,4 +24,4 @@ const typeDefs = gql`
         geoLocationUpdated: [GeoLocation!]!
     }
 `;
-export default typeDefs;
+export default GeoLocationSchema;

@@ -1,16 +1,18 @@
-import * as GeoLocation from './../models/geolocation.model.js';
+import * as GeoLocation from './models/geolocation.model.js';
 import {PubSub} from 'graphql-subscriptions';
 const pubsub = new PubSub();
-
-const resolvers = {
+import DBService from './services/db.service.js';
+const dbService = DBService.getInstance();
+await dbService.connect();
+const GeoLocationResolvers = {
     Query: {
-        geolocations: async (args) => {
+        geolocations: async () => {
             const result = await GeoLocation.default.find();
             return result.map((dataChunk) => {
                 return { ...dataChunk._doc };
             });
         },
-        geolocationsbyname: async (args) => {
+        geolocationsbyname: async (parent, args, context, info) => {
             let result;
             if (typeof args.name !== 'undefined') {
                 result = await GeoLocation.default.find({ "name": args.name });
@@ -23,7 +25,7 @@ const resolvers = {
         },
     },
     Mutation: {
-        insertGeoLocationDetail: async (args) => {
+        insertGeoLocationDetail: async (parent, args, context, info) => {
             const location = new GeoLocation.default({
                 name: args.geolocationinput.name,
                 latitude: args.geolocationinput.latitude,
@@ -46,4 +48,4 @@ const resolvers = {
         }
     }
 };
-export default resolvers;
+export default GeoLocationResolvers;
