@@ -1,5 +1,5 @@
 
-import {gql} from 'apollo-server-express';
+import { gql } from 'apollo-server-express';
 const GeoLocationSchema = gql`
     type GeoLocation {
         _id: ID!

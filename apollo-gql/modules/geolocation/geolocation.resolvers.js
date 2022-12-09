@@ -1,5 +1,5 @@
 import * as GeoLocation from './models/geolocation.model.js';
-import {PubSub} from 'graphql-subscriptions';
+import { PubSub } from 'graphql-subscriptions';
 const pubsub = new PubSub();
 import DBService from './services/db.service.js';
 const dbService = DBService.getInstance();
@@ -34,8 +34,11 @@ const GeoLocationResolvers = {
             let result;
             try {
                 result = await location.save();
+                pubsub.publish('BID_ENTERED', {
+                    geoLocationUpdated: result
+                });
             } catch (error) {
-                console.error('Unable to save car info', error);
+                console.error('Unable to save location info', error);
             }
             return { ...result._doc };
         }
