@@ -37,6 +37,9 @@ const GeoLocationResolvers = {
                 pubsub.publish('GEOLOCATION_INSERTED', {
                     geoLocationInserted: result
                 });
+                pubsub.publish('GEOLOCATION_INSERTED_FOR_'+args.geolocationinput.name, {
+                    geoLocationInsertedForIndividual: result
+                });
             } catch (error) {
                 console.error('Unable to save location info', error);
             }
@@ -47,6 +50,11 @@ const GeoLocationResolvers = {
         geoLocationInserted: {
             subscribe: () => {
                 return pubsub.asyncIterator('GEOLOCATION_INSERTED');
+            }
+        },
+        geoLocationInsertedForIndividual: {
+            subscribe: (parent, args, context, info) => {
+                return pubsub.asyncIterator('GEOLOCATION_INSERTED_FOR_'+args.name);
             }
         }
     }

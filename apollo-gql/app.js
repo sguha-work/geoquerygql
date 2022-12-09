@@ -52,3 +52,50 @@ const startServer = async () => {
   apolloServer.applyMiddleware({ app: app, path: "/geoloc" });
 };
 startServer();
+/**
+ * sample queries
+ * 
+ * query
+ * All
+ {"query": "query {  geolocations {    _id    name    latitude    longitude    createdAt  }}"}
+ * By name
+ {"query":"query {  geolocationsbyname(name:\"Angshu\") {    _id    name    latitude    longitude    createdAt  }}"}
+ *
+ * mutation
+ mutation {
+  insertGeoLocationDetail(geolocationinput:{
+    name:"Angshu",
+    latitude:30.009,
+    longitude:31.234
+  }) {
+    _id
+    name
+    latitude
+    longitude
+    createdAt
+  }
+}
+
+{"query":"mutation {    insertGeoLocationDetail(geolocationinput:{      name:\"Angshu\",      latitude:30.009,      longitude:31.234    }) {      _id      name      latitude      longitude      createdAt    }  }"}
+
+ * subscription
+ subscription GeoLocationInserted {
+  geoLocationInserted {
+    _id
+    name
+    latitude
+    longitude
+    createdAt
+  }
+}
+
+subscription GeoLocationInsertedForIndividual($name: String) {
+  geoLocationInsertedForIndividual(name: $name) {
+    _id
+    createdAt
+    latitude
+    longitude
+    name
+  }
+}
+ */

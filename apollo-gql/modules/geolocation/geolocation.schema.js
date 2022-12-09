@@ -21,7 +21,8 @@ const GeoLocationSchema = gql`
         insertGeoLocationDetail(geolocationinput: GeoLocationInput): GeoLocation
     }
     type Subscription {
-        geoLocationInserted: GeoLocation!
+        geoLocationInserted: GeoLocation!,
+        geoLocationInsertedForIndividual(name: String): GeoLocation!
     }
 `;
 export default GeoLocationSchema;
