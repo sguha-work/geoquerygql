@@ -34,6 +34,7 @@ const startServer = async () => {
     server: httpsServer,
     path: '/geoloc'
   });
+
   const apolloServer = new ApolloServer({
     typeDefs: GeoLocationSchema,
     resolvers: GeoLocationResolvers,

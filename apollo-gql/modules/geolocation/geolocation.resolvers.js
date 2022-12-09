@@ -34,8 +34,8 @@ const GeoLocationResolvers = {
             let result;
             try {
                 result = await location.save();
-                pubsub.publish('BID_ENTERED', {
-                    geoLocationUpdated: result
+                pubsub.publish('GEOLOCATION_INSERTED', {
+                    geoLocationInserted: result
                 });
             } catch (error) {
                 console.error('Unable to save location info', error);
@@ -44,9 +44,9 @@ const GeoLocationResolvers = {
         }
     },
     Subscription: {
-        geoLocationUpdated: {
+        geoLocationInserted: {
             subscribe: () => {
-                return pubsub.asyncIterator('GEOLOCATION_UPDATED');
+                return pubsub.asyncIterator('GEOLOCATION_INSERTED');
             }
         }
     }
