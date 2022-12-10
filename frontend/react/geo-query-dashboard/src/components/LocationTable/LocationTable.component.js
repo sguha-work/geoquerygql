@@ -53,9 +53,9 @@ const LocationTable = (props) => {
           {
             locationData.map((data, index) => (
               <tr key={index}>
-                <td>{new Date(data.createdAt).toLocaleString()}</td>
-                <td>{data.latitude}</td>
-                <td>{data.longitude}</td>
+                <td>{new Date(locationData[locationData.length-1-index].createdAt).toLocaleString()}</td>
+                <td>{locationData[locationData.length-1-index].latitude}</td>
+                <td>{locationData[locationData.length-1-index].longitude}</td>
               </tr>
             ))
           }
