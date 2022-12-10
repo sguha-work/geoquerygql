@@ -1,9 +1,9 @@
 import ApolloClient from './../../services/Apollo.service.js';
 import { ApolloProvider } from '@apollo/react-hooks';
 import LocationTable from '../LocationTable/LocationTable.component.js';
-const LocationDisplay = () => (
+const LocationDisplay = (props) => (
     <ApolloProvider client={ApolloClient}>
-        <LocationTable />
+        <LocationTable userName={props.userName}/>
     </ApolloProvider>
   );
    

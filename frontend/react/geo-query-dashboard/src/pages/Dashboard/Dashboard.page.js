@@ -21,7 +21,7 @@ function Dashboard() {
             {userName !== 'admin' && (
                 <>
                     <h3>Displaying location for {userName}</h3>
-                    <LocationDisplay></LocationDisplay>
+                    <LocationDisplay userName={userName}></LocationDisplay>
                 </>
 
 
