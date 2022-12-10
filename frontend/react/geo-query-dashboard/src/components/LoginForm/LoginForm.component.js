@@ -15,14 +15,16 @@ function LoginForm() {
         <>
             <form>
                 <table>
-                    <tr>
-                        <td>Enter name to display location</td>
-                        <td><input type="text" onChange={(event) => setUserName(event.currentTarget.value)} /></td>
-                    </tr>
-                    <tr>
-                        <td><button onClick={submitButtonClicked}>Submit</button></td>
-                        <td><button>Reset</button></td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <td>Enter name to display location</td>
+                            <td><input type="text" onChange={(event) => setUserName(event.currentTarget.value)} /></td>
+                        </tr>
+                        <tr>
+                            <td><button onClick={submitButtonClicked}>Submit</button></td>
+                            <td><button>Reset</button></td>
+                        </tr>
+                    </tbody>
                 </table>
             </form>
         </>

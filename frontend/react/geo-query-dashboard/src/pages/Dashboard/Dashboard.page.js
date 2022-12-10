@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CommonService from "../../services/Common.service";
+import Header from "../../components/Header/Header.component";
 function Dashboard() {
     const commonService = CommonService.getInstance();
     const [userName, setUserName] = useState('');
@@ -14,6 +15,7 @@ function Dashboard() {
     }, []);
     return (
         <>
+        <Header></Header>
             <h2>This is dashboard to display employee locations</h2>
             {userName!=='admin'&&(
                 <h3>Displaying location for {userName}</h3>
