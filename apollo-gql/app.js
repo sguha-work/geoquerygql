@@ -24,7 +24,7 @@ const startServer = async () => {
     console.log(`Server listning to port ${port}`);
   });
   const subscriptionServer = SubscriptionServer.create({
-    executableSchema,
+    schema:executableSchema,
     execute,
     subscribe
   }, {
