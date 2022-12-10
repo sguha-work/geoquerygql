@@ -2,6 +2,7 @@ import gql from 'graphql-tag';
 import React from 'react';
 import { useSubscription } from '@apollo/react-hooks';
 import { useState } from 'react';
+import './LocationTable.component.css';
 const GEOLOCATION_INSERTED_FOR = gql`
       subscription GeoLocationInsertedForIndividual($name: String!){
         geoLocationInsertedForIndividual(name: $name) {
@@ -15,16 +16,19 @@ const GEOLOCATION_INSERTED_FOR = gql`
 `;
 
 const LocationTable = (props) => {
-  const [locationData, setLocationData] = useState([]);
+  const [locationData, setLocationData] = useState([{ createdAt: null }]);
   const { data, error, loading } = useSubscription(GEOLOCATION_INSERTED_FOR, {
     variables: {
       name: props.userName
     }
   });
-  console.log(`data from subscription: ${props.userName}`, data);
-  if (data && data.geoLocationInsertedForIndividual) {
-    const locationList = [...locationData];
+  if (data && data.geoLocationInsertedForIndividual && data.geoLocationInsertedForIndividual.createdAt !== locationData.at(-1).createdAt) {
+    let locationList = [...locationData];
+    if (locationList.length === 1 && locationList[0].createdAt == null) {
+      locationList = [];
+    }
     locationList.push(data.geoLocationInsertedForIndividual);
+    console.log(locationList);
     setLocationData(locationList);
   }
   if (loading) {
@@ -37,7 +41,7 @@ const LocationTable = (props) => {
 
   return (
     <div className="notification">
-      <table>
+      <table className="styled-table">
         <thead>
           <tr>
             <th>Time</th>
@@ -49,7 +53,7 @@ const LocationTable = (props) => {
           {
             locationData.map((data, index) => (
               <tr key={index}>
-                <td>{data.createdAt}</td>
+                <td>{new Date(data.createdAt).toLocaleString()}</td>
                 <td>{data.latitude}</td>
                 <td>{data.longitude}</td>
               </tr>
