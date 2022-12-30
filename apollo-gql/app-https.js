@@ -1,6 +1,6 @@
 import express from 'express';
-//import https from 'https';
-//import fs from 'fs';
+import https from 'https';
+import fs from 'fs';
 import { ApolloServer } from 'apollo-server-express';
 import dotenv from 'dotenv';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
@@ -17,14 +17,18 @@ const executableSchema = makeExecutableSchema({
 const port = process.env.PORT || 3005;
 const startServer = async () => {
   const app = express();
-  await app.listen(port);
-  console.log(`Server listning to port ${port}`);
+  const httpsServer = https.createServer({
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem')
+  }, app).listen(port, () => {
+    console.log(`Server listning to port ${port}`);
+  });
   const subscriptionServer = SubscriptionServer.create({
     schema:executableSchema,
     execute,
     subscribe
   }, {
-    server: app,
+    server: httpsServer,
     path: '/geoloc'
   });
 
